@@ -22,18 +22,39 @@ import { GlobalIcon } from '../../static/iconfont/iconfont';
 
 class Header extends Component {
   getListArea() {
-    const { focused, list } = this.props;
-    if (focused) {
+    const {
+      focused,
+      list,
+      page,
+      mouseIn,
+      totalPage,
+      handleMouseEnter,
+      handleMouseLeave,
+      handlePageChange
+    } = this.props;
+    const newList = list.toJS();
+    const pageList = [];
+
+    for (let i = (page - 1) * 10; i < page * 10; i++) {
+      if (newList.length) {
+        pageList.push(
+          <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+        );
+      }
+    }
+    if (focused || mouseIn) {
       return (
-        <SearchInfo>
+        <SearchInfo
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <SearchInfoTitle>
-            热门搜索<SearchInfoSwitch>换一批</SearchInfoSwitch>
+            热门搜索
+            <SearchInfoSwitch onClick={() => handlePageChange(page, totalPage)}>
+              换一批
+            </SearchInfoSwitch>
           </SearchInfoTitle>
-          <SearchInfoList>
-            {list.map(item => {
-              return <SearchInfoItem key={item}>{item}</SearchInfoItem>;
-            })}
-          </SearchInfoList>
+          <SearchInfoList>{pageList}</SearchInfoList>
         </SearchInfo>
       );
     } else {
@@ -54,11 +75,7 @@ class Header extends Component {
             <i className="iconfont">&#xe636;</i>
           </NavItem>
           <SearchWrapper>
-            <CSSTransition
-              in={this.props.focused}
-              timeout={200}
-              classNames="slide"
-            >
+            <CSSTransition in={focused} timeout={200} classNames="slide">
               <NavSearch
                 className={focused ? 'focused' : ''}
                 onFocus={handleInputFocus}
@@ -87,7 +104,10 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
     focused: state.getIn(['header', 'focused']),
-    list: state.getIn(['header', 'list'])
+    list: state.getIn(['header', 'list']),
+    page: state.getIn(['header', 'page']),
+    totalPage: state.getIn(['header', 'totalPage']),
+    mouseIn: state.getIn(['header', 'mouseIn'])
   };
 };
 
@@ -99,6 +119,19 @@ const mapDispatchToProps = dispatch => {
     },
     handleInputBlur() {
       dispatch(actionCreators.searchBlur());
+    },
+    handleMouseEnter() {
+      dispatch(actionCreators.mouseEnter());
+    },
+    handleMouseLeave() {
+      dispatch(actionCreators.mouseLeave());
+    },
+    handlePageChange(page, totalPage) {
+      if (page < totalPage) {
+        dispatch(actionCreators.changePage(page + 1));
+      } else {
+        dispatch(actionCreators.changePage(1));
+      }
     }
   };
 };
