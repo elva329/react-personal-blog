@@ -22,14 +22,15 @@ import { GlobalIcon } from '../../static/iconfont/iconfont';
 
 class Header extends Component {
   getListArea() {
-    if (this.props.focused) {
+    const { focused, list } = this.props;
+    if (focused) {
       return (
         <SearchInfo>
           <SearchInfoTitle>
             热门搜索<SearchInfoSwitch>换一批</SearchInfoSwitch>
           </SearchInfoTitle>
           <SearchInfoList>
-            {this.props.list.map(item => {
+            {list.map(item => {
               return <SearchInfoItem key={item}>{item}</SearchInfoItem>;
             })}
           </SearchInfoList>
@@ -40,6 +41,7 @@ class Header extends Component {
     }
   }
   render() {
+    const { focused, handleInputFocus, handleInputBlur } = this.props;
     return (
       <HeaderWrapper>
         <Logo />
@@ -58,12 +60,12 @@ class Header extends Component {
               classNames="slide"
             >
               <NavSearch
-                className={this.props.focused ? 'focused' : ''}
-                onFocus={this.props.handleInputFocus}
-                onBlur={this.props.handleInputBlur}
+                className={focused ? 'focused' : ''}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
               ></NavSearch>
             </CSSTransition>
-            <i className={this.props.focused ? 'focused iconfont' : 'iconfont'}>
+            <i className={focused ? 'focused iconfont' : 'iconfont'}>
               &#xe6e4;
             </i>
             {this.getListArea()}
