@@ -118,6 +118,7 @@ export const SearchInfoSwitch = styled.div`
   float: right;
   font-size: 13px;
   margin-right: 15px;
+  cursor: pointer;
   .spin {
     display: block;
     float: left;
