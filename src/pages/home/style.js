@@ -70,3 +70,23 @@ export const ListInfo = styled.div`
     color: #333;
   }
 `;
+
+export const RecommendWrapper = styled.div`
+  margin: 30px 0;
+  width: 280px;
+`;
+
+export const RecommendItem = styled.div`
+  width: 280px;
+  height: 50px;
+  background: url(${props => props.imgUrl});
+  background-size: contain;
+`;
+
+export const WriterWrapper = styled.div`
+  width: 278px;
+  border: 1px solid #dcdcdc;
+  height: 300px;
+  line-height: 300px;
+  text-align: center;
+`;
