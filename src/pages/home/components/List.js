@@ -1,21 +1,24 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ListItem, ListInfo, LoadMore } from '../style';
 import { connect } from 'react-redux';
 import { actionCreators } from '../store';
-class List extends Component {
+import { Link } from 'react-router-dom';
+class List extends PureComponent {
   render() {
     const { list, getMoreList, page } = this.props;
     return (
       <div>
         {list.map((item, index) => {
           return (
-            <ListItem key={index}>
-              <img className="pic" src={item.get('imgUrl')} alt="" />
-              <ListInfo>
-                <h3 className="title">{item.get('title')}</h3>
-                <p className="desc">{item.get('desc')}</p>
-              </ListInfo>
-            </ListItem>
+            <Link key={index} to="/detail">
+              <ListItem key={index}>
+                <img className="pic" src={item.get('imgUrl')} alt="" />
+                <ListInfo>
+                  <h3 className="title">{item.get('title')}</h3>
+                  <p className="desc">{item.get('desc')}</p>
+                </ListInfo>
+              </ListItem>
+            </Link>
           );
         })}
         <LoadMore onClick={() => getMoreList(page)}>more</LoadMore>
@@ -31,6 +34,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   getMoreList(page) {
+    //派发一个 action
     dispatch(actionCreators.getMoreList(page));
   }
 });

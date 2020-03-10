@@ -27,7 +27,13 @@ export const getMoreList = page => {
   return dispatch => {
     axios.get('/api/homeList.json?page=' + page).then(res => {
       const result = res.data.data;
+      //请求到数据之后，派发一个同步的 action
       dispatch(addHomeList(result, page + 1));
     });
   };
 };
+
+export const toggleTopShow = show => ({
+  type: constants.TOGGLE_SCROLL_TOP,
+  show
+});
