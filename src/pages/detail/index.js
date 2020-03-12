@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { DetailWrapper, Header, Content } from './style';
 import { actionCreators } from './store';
 class Detail extends PureComponent {
@@ -28,4 +29,5 @@ const mapDispatch = dispatch => ({
     dispatch(actionCreators.getDetail(id));
   }
 });
-export default connect(mapState, mapDispatch)(Detail);
+//让detail有能力获取router里的所有参数和内容
+export default connect(mapState, mapDispatch)(withRouter(Detail));
